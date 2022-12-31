@@ -1,12 +1,11 @@
 import tkinter as tk
 from tkinter import messagebox
 from tkinter import ttk
-from ttkthemes import ThemedTk
 
-class Calculadora(ThemedTk):
+class Calculadora(tk.Tk):
    def __init__(self):
       super().__init__()
-      self.geometry('450x380')
+      self.geometry('450x360')
       self.resizable(0,0)
       self.title('Calculadora')
       # Atributos clase
@@ -19,10 +18,7 @@ class Calculadora(ThemedTk):
 
       # Creamos los componentes
       self._creacion_componentes()
-      style = ttk.Style(self)
-      style.theme_use('blue')      
-      my_menu = tk.Menu(self)
-      self.config(menu=my_menu)
+
 
    # Metodos de Clase
    # Metodo para crear componentes
