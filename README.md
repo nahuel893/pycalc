@@ -1,2 +1,2 @@
 ### Simple Py Calculator
-<img src="image.jpg" alt="Alt text" title="">
+<img src="darkcalc.jpg" alt="Alt text" title="">

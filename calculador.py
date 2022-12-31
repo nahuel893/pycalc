@@ -1,11 +1,15 @@
 import tkinter as tk
 from tkinter import messagebox
 from tkinter import ttk
+import customtkinter as ct
 
-class Calculadora(tk.Tk):
+ct.set_appearance_mode("Dark")  # Modes: "System" (standard), "Dark", "Light"
+ct.set_default_color_theme("blue")  # Themes: "blue" (standard), "green", "dark-blue"
+
+class Calculadora(ct.CTk):
    def __init__(self):
       super().__init__()
-      self.geometry('450x360')
+      self.geometry('410x318')
       self.resizable(0,0)
       self.title('Calculadora')
       # Atributos clase
@@ -15,7 +19,9 @@ class Calculadora(tk.Tk):
       # StringVar para actualizar el valor del input
       self.entrada_texto = tk.StringVar()
       # Seleccionamos el tema oscuro de tkinter
-
+      self.grid_columnconfigure(1, weight=1)
+      self.grid_columnconfigure((2, 3), weight=0)
+      self.grid_rowconfigure((0, 1, 2), weight=1)
       # Creamos los componentes
       self._creacion_componentes()
 
@@ -24,42 +30,37 @@ class Calculadora(tk.Tk):
    # Metodo para crear componentes
    def _creacion_componentes(self):
       # Crear un frame para la caja de texto
-      entrada_frame = tk.Frame(self, width=400, height=50, bg='grey')
-      entrada_frame.pack(side=tk.TOP)
+      entrada_frame = ct.CTkFrame(self, height=200, width=200,corner_radius=10)#, bg='grey')
+      entrada_frame.pack( fill='x')
       # Caja de texto
-      entrada = tk.Entry(entrada_frame,
+      entrada = ct.CTkEntry(entrada_frame,
                         font=('Jetbrains Mono Medium', 15, 'bold'),
-                        textvariable=self.entrada_texto,
-                        width=30, justify=tk.RIGHT)
-      entrada.grid(row=0, column=0, ipady=7)
+                        textvariable=self.entrada_texto,height=55, justify=tk.RIGHT)
+
+      entrada.pack(fill='x')
 
       # Creamos otro frame para la parte inferior
-      botones_frame = tk.Frame(self, width=400, height=450, bg='grey')
-      botones_frame.pack()
+      botones_frame = ct.CTkFrame(self, width=400, height=450,corner_radius=10)#, bg='grey')
+      botones_frame.pack(fill='x')
 
       def crear_boton(valor, f, c):
          event = lambda: self._evento_click(valor)
-         width, height = (10, 3)
+         width, height = (100, 50)
          if isinstance(valor, int):
-            bg = '#fff'
             if valor == 0:
-               width = 24
+               width = 100
          elif isinstance(valor, str):
-            bg = '#eee'
             if valor == '=':
                event = lambda: self._evento_evaluar() # si no se usa lambda no lleva parentesis para command
-         # Edicion: eliminado parametro bg=bg para una buena adaptacion al tema oscuro
-         boton = tk.Button(botones_frame, text=valor, width=width, height=height, bd=0,
+         boton = ct.CTkButton(botones_frame, text=valor, width=width, height=height,
                                 cursor='hand2', command=event)
          if valor == 0:
-            return boton.grid(row=f, column=c, columnspan=2, padx=1, pady=1)
+            return boton.grid(row=f, column=c, columnspan=2, padx=1, pady=1, sticky='nsew')
 
          return boton.grid(row=f, column=c, padx=1, pady=1)
 
-      # Edicion: eliminado parametro bg='#eee' para una buena adaptacion al tema oscuro
-      boton_limpiar = tk.Button(botones_frame, text='C', width=38, height=3, bd=0
-                                 , cursor='hand2', command=self._evento_limpiar
-                                ).grid(row=0, column=0, columnspan=3, padx=1, pady=1)
+      boton_limpiar = ct.CTkButton(botones_frame, text='C', cursor='hand2', command=self._evento_limpiar
+                                ).grid(row=0, column=0, columnspan=3, padx=1, pady=1, sticky='nsew')
       # Boton de division
       crear_boton('/', 0, 3)
 
